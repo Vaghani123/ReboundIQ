@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReboundIQ — Stock Rebound Probability Scanner</title>
+  <meta name="description"
+    content="Real-time stock rebound probability scanner. Identifies oversold stocks and calculates bounce probability using RSI, price drops, volume spikes, and market sentiment." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- Home View -->
+  <div id="home-view" class="home-view">
+    <header class="home-header">
+      <div class="home-logo">
+        <span class="title-icon">📉</span>
+        <span class="title-text" style="font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em;">Rebound<span class="title-accent">IQ</span></span>
+      </div>
+      <div class="home-auth-buttons">
+        <button id="home-login-btn" class="btn btn-ghost">Log In</button>
+        <button id="home-signup-btn" class="btn btn-primary">Sign Up</button>
+      </div>
+    </header>
+    <main class="home-main">
+      <div class="hero-section">
+        <div class="trust-badge reveal" style="display: inline-block; padding: 6px 16px; border-radius: 20px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); color: var(--accent); font-size: 0.9rem; font-weight: 600; margin-bottom: 24px;">
+          ⭐ Trusted by 10,000+ Active Day Traders
+        </div>
+        <h1 class="hero-title reveal delay-100">Catch the Bottom.<br>Ride the <span class="title-accent">Rebound.</span></h1>
+        <p class="hero-subtitle reveal delay-200">
+          An advanced real-time market scanner that detects severely oversold stocks before they reverse. 
+          Powered by massive multi-factor probability algorithms.
+        </p>
+        <div class="hero-features" style="margin-top: 48px;">
+          <div class="feature-card reveal-left delay-100">
+            <div style="font-size: 2rem; margin-bottom: 12px;">⚡</div>
+            <h3>Direct Analysis</h3>
+            <p>Processes 12+ technical indicators including RSI and MACD simultaneously.</p>
+          </div>
+          <div class="feature-card reveal delay-200">
+            <div style="font-size: 2rem; margin-bottom: 12px;">🎯</div>
+            <h3>High Accuracy</h3>
+            <p>Graded master calculation scoring the literal likelihood of an imminent bounce.</p>
+          </div>
+          <div class="feature-card reveal-right delay-300">
+            <div style="font-size: 2rem; margin-bottom: 12px;">⭐</div>
+            <h3>Custom Watchlists</h3>
+            <p>Manage and organize tickers inside multi-tenant user-scoped virtual watchlists.</p>
+          </div>
+         <button id="home-cta-btn" class="btn btn-primary hero-cta-btn reveal delay-400" style="font-size: 1.2rem; padding: 16px 32px; margin-top: 24px; margin-bottom: 24px;">Start Scanning for Free</button>
+      </div>
+
+        <div class="stats-bar" id="hero-stats-bar" style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 24px; margin-top: 48px; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 32px 0; transform: scale(0.85); will-change: transform;">
+          <div class="stat-item" style="text-align: center;">
+            <h2 style="font-size: 2.5rem; color: var(--accent); margin-bottom: 8px;">1.2M+</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">Tickers Scanned</p>
+          </div>
+          <div class="stat-item" style="text-align: center;">
+            <h2 style="font-size: 2.5rem; color: var(--green); margin-bottom: 8px;">94%</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">Bounce Accuracy</p>
+          </div>
+          <div class="stat-item" style="text-align: center;">
+            <h2 style="font-size: 2.5rem; color: var(--yellow); margin-bottom: 8px;">12+</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">Technical Indicators</p>
+          </div>
+          <div class="stat-item" style="text-align: center;">
+            <h2 style="font-size: 2.5rem; color: var(--text-primary); margin-bottom: 8px;">&lt;50ms</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">Real-Time Latency</p>
+          </div>
+        </div>
+
+        <div class="hero-preview" id="hero-preview-graph" style="margin-top: 64px; margin-bottom: 64px; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6); transform: scale(0.85); will-change: transform;">
+          <div class="preview-header" style="height: 32px; background: rgba(0,0,0,0.4); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; padding: 0 16px; gap: 8px;">
+            <span style="width: 12px; height: 12px; border-radius: 50%; background: var(--red);"></span>
+            <span style="width: 12px; height: 12px; border-radius: 50%; background: var(--yellow);"></span>
+            <span style="width: 12px; height: 12px; border-radius: 50%; background: var(--green);"></span>
+            <span style="margin-left: 12px; font-size: 0.8rem; font-family: var(--font-mono); color: rgba(255,255,255,0.3); white-space: nowrap;">reboundiq-scanner-live</span>
+          </div>
+          <div class="preview-body" style="height: 380px; padding: 24px; position: relative;">
+                <svg viewBox="0 0 800 360" preserveAspectRatio="none" style="width: 100%; height: 100%; overflow: visible; display: block;">
+                  <defs>
+                    <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur stdDeviation="5" result="blur"/>
+                      <feMerge>
+                        <feMergeNode in="blur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                    <filter id="glow-red" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur stdDeviation="3" result="blur"/>
+                      <feMerge>
+                        <feMergeNode in="blur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  
+                  <!-- Grid -->
+                  <path d="M0,50 L800,50 M0,100 L800,100 M0,150 L800,150 M0,200 L800,200 M0,250 L800,250 M0,300 L800,300" stroke="rgba(255,255,255,0.05)" stroke-width="1" stroke-dasharray="4,4" />
+                  <text x="750" y="46" fill="rgba(255,255,255,0.2)" font-size="12" font-family="var(--font-mono)">$160.00</text>
+                  <text x="750" y="96" fill="rgba(255,255,255,0.2)" font-size="12" font-family="var(--font-mono)">$159.50</text>
+                  <text x="750" y="146" fill="rgba(255,255,255,0.2)" font-size="12" font-family="var(--font-mono)">$159.00</text>
+                  <text x="750" y="196" fill="rgba(255,255,255,0.2)" font-size="12" font-family="var(--font-mono)">$158.50</text>
+                  <text x="750" y="246" fill="rgba(255,255,255,0.2)" font-size="12" font-family="var(--font-mono)">$158.00</text>
+                  <text x="750" y="296" fill="rgba(255,255,255,0.2)" font-size="12" font-family="var(--font-mono)">$157.50</text>
+
+                  <!-- Candle 1: Red -->
+                  <line x1="60" y1="50" x2="60" y2="120" stroke="#ef4444" stroke-width="2"/>
+                  <rect x="52" y="60" width="16" height="40" fill="#ef4444" rx="2" />
+                  
+                  <!-- Candle 2: Red -->
+                  <line x1="120" y1="80" x2="120" y2="180" stroke="#ef4444" stroke-width="2"/>
+                  <rect x="112" y="100" width="16" height="60" fill="#ef4444" rx="2" />
+                  
+                  <!-- Candle 3: Red -->
+                  <line x1="180" y1="140" x2="180" y2="210" stroke="#ef4444" stroke-width="2"/>
+                  <rect x="172" y="150" width="16" height="50" fill="#ef4444" rx="2" />
+                  
+                  <!-- Candle 4: Red -->
+                  <line x1="240" y1="180" x2="240" y2="240" stroke="#ef4444" stroke-width="2"/>
+                  <rect x="232" y="190" width="16" height="40" fill="#ef4444" rx="2" />
+                  
+                  <!-- Candle 5: Green -->
+                  <line x1="300" y1="200" x2="300" y2="250" stroke="#10b981" stroke-width="2"/>
+                  <rect x="292" y="220" width="16" height="20" fill="#10b981" rx="2" />
+                  
+                  <!-- Candle 6: Red (Bottom) -->
+                  <line x1="360" y1="220" x2="360" y2="290" stroke="#ef4444" stroke-width="2" filter="url(#glow-red)" />
+                  <rect x="352" y="230" width="16" height="50" fill="#ef4444" rx="2" filter="url(#glow-red)" />
+                  
+                  <!-- Marker: OVERSOLD -->
+                  <line x1="360" y1="290" x2="360" y2="330" stroke="rgba(239, 68, 68, 0.5)" stroke-width="2" stroke-dasharray="4,4" />
+                  <rect x="320" y="325" width="80" height="26" rx="4" fill="#ef4444" filter="url(#glow-red)" />
+                  <text x="360" y="343" fill="#fff" font-size="12" font-weight="800" font-family="sans-serif" text-anchor="middle">OVERSOLD</text>
+                  
+                  <!-- Candle 7: Green -->
+                  <line x1="420" y1="240" x2="420" y2="285" stroke="#10b981" stroke-width="2" filter="url(#glow-green)" />
+                  <rect x="412" y="250" width="16" height="30" fill="#10b981" rx="2" filter="url(#glow-green)"/>
+                  
+                  <!-- Candle 8: Green -->
+                  <line x1="480" y1="180" x2="480" y2="260" stroke="#10b981" stroke-width="2" filter="url(#glow-green)" />
+                  <rect x="472" y="200" width="16" height="50" fill="#10b981" rx="2" filter="url(#glow-green)"/>
+                  
+                  <!-- Candle 9: Green -->
+                  <line x1="540" y1="120" x2="540" y2="210" stroke="#10b981" stroke-width="2" filter="url(#glow-green)" />
+                  <rect x="532" y="140" width="16" height="55" fill="#10b981" rx="2" filter="url(#glow-green)"/>
+                  
+                  <!-- Candle 10: Red -->
+                  <line x1="600" y1="130" x2="600" y2="180" stroke="#ef4444" stroke-width="2"/>
+                  <rect x="592" y="145" width="16" height="20" fill="#ef4444" rx="2" />
+                  
+                  <!-- Candle 11: Green (Explosive) -->
+                  <line x1="660" y1="40" x2="660" y2="170" stroke="#10b981" stroke-width="3" filter="url(#glow-green)" />
+                  <rect x="652" y="60" width="16" height="105" fill="#10b981" rx="2" filter="url(#glow-green)"/>
+                  
+                  <!-- Marker: BOUNCE -->
+                  <circle cx="660" cy="40" r="6" fill="#10b981" stroke="#fff" stroke-width="2" filter="url(#glow-green)" />
+                  <text x="660" y="24" fill="#10b981" font-size="16" font-weight="900" font-family="sans-serif" text-anchor="middle">+8.4% Bounce</text>
+                  
+                  <!-- Candle 12: Green -->
+                  <line x1="720" y1="20" x2="720" y2="80" stroke="#10b981" stroke-width="2" filter="url(#glow-green)" />
+                  <rect x="712" y="35" width="16" height="30" fill="#10b981" rx="2" filter="url(#glow-green)"/>
+
+                </svg>
+              </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <div id="auth-wrapper" class="auth-wrapper hidden">
+    <button id="auth-close-btn" class="btn btn-ghost" style="position: absolute; top: 24px; left: 24px;">&larr; Back to Home</button>
+    <!-- Login View -->
+    <div id="view-login" class="auth-card">
+      <h1 class="app-title" style="justify-content: center; margin-bottom: 24px;">
+        <span class="title-icon">📉</span>
+        <span class="title-text">Rebound<span class="title-accent">IQ</span></span>
+      </h1>
+      <p style="text-align: center; color: var(--text-secondary); margin-bottom: 24px;">Sign in to your account</p>
+      
+      <div id="login-error" class="auth-error hidden">Invalid username or password.</div>
+
+      <div class="auth-form">
+        <input type="text" id="login-username" class="auth-input" placeholder="Username" autocomplete="off" />
+        <input type="password" id="login-password" class="auth-input" placeholder="Password" />
+        <button id="login-btn" class="btn btn-primary auth-submit">Login</button>
+      </div>
+      <div class="auth-footer">
+        <a href="#" id="link-forgot" class="auth-link">Forgot Password?</a>
+        <span style="color: var(--text-muted)">•</span>
+        <a href="#" id="link-signup" class="auth-link">Need an account?</a>
+      </div>
+    </div>
+
+    <!-- Sign Up View -->
+    <div id="view-signup" class="auth-card hidden">
+      <h2 style="text-align: center; margin-bottom: 24px;">Create Account</h2>
+      <div id="signup-error" class="auth-error hidden">Please fill all fields.</div>
+      <div class="auth-form">
+        <input type="text" id="signup-fullname" class="auth-input" placeholder="Full Name" autocomplete="off" />
+        <input type="text" id="signup-username" class="auth-input" placeholder="Choose a Username" autocomplete="off" />
+        <input type="password" id="signup-password" class="auth-input" placeholder="Choose a Password" />
+        <button id="signup-btn" class="btn btn-primary auth-submit">Sign Up</button>
+      </div>
+      <div class="auth-footer">
+        <a href="#" id="link-back-login1" class="auth-link">Back to Login</a>
+      </div>
+    </div>
+
+    <!-- Recovery Code View -->
+    <div id="view-recovery-code" class="auth-card hidden">
+      <h2 style="text-align: center; color: var(--yellow); margin-bottom: 16px;">Save This Code!</h2>
+      <p style="text-align: center; color: var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem;">
+        If you ever forget your password, you will need this exact code to recover your account. Keep it safe.
+      </p>
+      <div class="recovery-box" id="display-recovery-code">
+        XXXXXXXX
+      </div>
+      <button id="recovery-continue-btn" class="btn btn-primary auth-submit" style="margin-top: 24px;">I Have Saved It</button>
+    </div>
+
+    <!-- Forgot Password View -->
+    <div id="view-forgot" class="auth-card hidden">
+      <h2 style="text-align: center; margin-bottom: 24px;">Recover Account</h2>
+      <div id="forgot-error" class="auth-error hidden">Invalid username or recovery code.</div>
+      <div class="auth-form">
+        <input type="text" id="forgot-username" class="auth-input" placeholder="Username" autocomplete="off" />
+        <input type="text" id="forgot-code" class="auth-input" placeholder="8-Character Recovery Code" autocomplete="off" />
+        <button id="verify-recovery-btn" class="btn btn-primary auth-submit">Verify</button>
+      </div>
+      <div class="auth-footer">
+        <a href="#" id="link-back-login2" class="auth-link">Back to Login</a>
+      </div>
+    </div>
+
+    <!-- Reset Password View -->
+    <div id="view-reset" class="auth-card hidden">
+      <h2 style="text-align: center; margin-bottom: 24px;">Set New Password</h2>
+      <div id="reset-error" class="auth-error hidden">Password cannot be empty.</div>
+      <div class="auth-form">
+        <input type="password" id="reset-new-password" class="auth-input" placeholder="New Password" />
+        <button id="reset-btn" class="btn btn-primary auth-submit">Update Password</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="sidebar-overlay" class="sidebar-overlay hidden-overlay"></div>
+  <aside id="sidebar" class="sidebar sidebar-closed">
+    <div class="sidebar-header">
+      <h2 class="app-title">
+        <span class="title-icon">📉</span>
+        <span class="title-text">Menu</span>
+      </h2>
+      <button id="close-sidebar-btn" class="btn btn-ghost close-sidebar-btn">&times;</button>
+    </div>
+    <nav class="sidebar-nav">
+      <button id="nav-scanner" class="sidebar-link active">
+        <span class="sidebar-icon">📊</span> Scanner
+      </button>
+      <button id="nav-watchlist" class="sidebar-link">
+        <span class="sidebar-icon">⭐</span> Watchlists
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <button id="nav-logout" class="sidebar-link text-red">
+        <span class="sidebar-icon">🚪</span> Log Out
+      </button>
+    </div>
+  </aside>
+
+  <div id="app" class="hidden">
+    <!-- Header -->
+    <header id="app-header">
+      <div class="header-left">
+        <button id="menu-btn" class="btn btn-ghost menu-btn" title="Open Menu">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        <div>
+          <h1 class="app-title">
+            <span class="title-icon">📉</span>
+            <span class="title-text">Rebound<span class="title-accent">IQ</span></span>
+          </h1>
+          <span class="app-subtitle">Market Scanner</span>
+        </div>
+        <span id="current-watchlist-label" class="hidden" style="font-size: 0.8rem; color: var(--accent); margin-left: 8px; font-weight: 600;"></span>
+      </div>
+      <div class="header-right">
+        <div class="header-controls">
+          <button id="rename-watchlist-btn" class="btn btn-ghost hidden">Rename</button>
+          <button id="add-ticker-main-btn" class="btn btn-primary hidden">+ Add Ticker</button>
+          <div id="filter-container" class="filter-container">
+            <svg class="filter-icon" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+              <path fill-rule="evenodd"
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                clip-rule="evenodd" />
+            </svg>
+            <input type="text" id="filter-input" placeholder="Filter tickers..." autocomplete="off" />
+          </div>
+          <button id="refresh-btn" class="btn btn-ghost" title="Refresh Now">
+            <svg id="refresh-icon" viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+              <path fill-rule="evenodd"
+                d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                clip-rule="evenodd" />
+            </svg>
+          </button>
+          <button id="sort-btn" class="btn btn-ghost" title="Sort by Bounce %">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+              <path
+                d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8l-4 4h8l-4-4z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Add Ticker Modal -->
+    <div id="add-ticker-modal" class="modal-overlay hidden">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>Add Stock Ticker</h2>
+          <button id="modal-close-btn" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <input type="text" id="ticker-input" placeholder="Enter ticker symbol (e.g. AAPL)" maxlength="5"
+            autocomplete="off" />
+          <p class="modal-hint">Press Enter or click Add to add the ticker</p>
+        </div>
+        <div class="modal-footer">
+          <button id="modal-cancel-btn" class="btn btn-ghost">Cancel</button>
+          <button id="modal-add-btn" class="btn btn-primary">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Ticker Modal -->
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+      <div class="loading-spinner">
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+      </div>
+      <p class="loading-text">Scanning stocks...</p>
+    </div>
+
+    <!-- Watchlist Manager Section -->
+    <div id="watchlist-manager" class="empty-state hidden" style="margin-top: 40px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-card); padding: 40px;">
+      <h2 style="color: var(--text-primary); margin-bottom: 16px;">Your Watchlists</h2>
+      <div id="watchlist-buttons" style="display: flex; gap: 12px; justify-content: center; margin-bottom: 24px; flex-wrap: wrap;"></div>
+      <div style="display: flex; gap: 8px; justify-content: center; margin-top: 16px;">
+        <input type="text" id="new-watchlist-input" placeholder="New Watchlist Name..." style="padding: 10px 16px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-secondary); color: var(--text-primary); outline: none; width: 200px;" autocomplete="off" />
+        <button id="create-watchlist-btn" class="btn btn-primary">Create</button>
+      </div>
+    </div>
+
+    <!-- Main Table -->
+    <main id="table-container">
+      <div class="table-wrapper">
+        <table id="stock-table">
+          <thead>
+            <tr>
+              <th class="col-ticker" data-sort="ticker">TICKER</th>
+              <th class="col-current" data-sort="current">CURR…</th>
+              <th class="col-last" data-sort="last">LAST…</th>
+              <th class="col-3min" data-sort="min3">3-MIN…</th>
+              <th class="col-9min" data-sort="min9">9-MIN…</th>
+              <th class="col-session" data-sort="session">SESSION…</th>
+              <th class="col-bounce" data-sort="bounce">BOUNCE %</th>
+              <th class="col-actions"></th>
+            </tr>
+          </thead>
+          <tbody id="stock-tbody">
+            <!-- Rows injected by JS -->
+          </tbody>
+        </table>
+      </div>
+      <div id="empty-state" class="empty-state hidden">
+        <p>No tickers found. Add some to get started!</p>
+      </div>
+    </main>
+
+    <!-- Status Bar -->
+    <footer id="status-bar">
+      <div class="status-content">
+        <span class="status-item"><strong>Last updated:</strong> <span id="last-updated">—</span></span>
+        <span class="status-separator">·</span>
+        <span class="status-item"><strong>Auto-refresh:</strong> Enabled (60s)</span>
+        <span class="status-separator">·</span>
+        <span class="status-item"><strong>Scan</strong> #<span id="scan-count">0</span></span>
+        <span class="status-separator">·</span>
+        <span id="data-source" class="status-source source-sim">🔬 Simulated</span>
+        <button id="test-connection-btn" class="btn-test" title="Run Connectivity Test">Test</button>
+      </div>
+      <div class="status-credit">Created by Riyan.V</div>
+
+    </footer>
+  </div>
+
+  <!-- Chart Modal -->
+  <div id="chart-modal" class="modal-overlay hidden" style="z-index: 2000;">
+    <div class="modal" style="width: 95vw; max-width: 1400px; height: 85vh; padding: 0; overflow: hidden; display: flex; flex-direction: column; border-radius: 20px; border: 1px solid var(--accent-glow); box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);">
+      <div class="modal-header" style="padding: 16px 24px; background: var(--bg-card); border-bottom: 1px solid var(--border-color);">
+        <h2 id="chart-modal-title">Stock Analysis</h2>
+        <button id="chart-modal-close-btn" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body" style="flex: 1; padding: 0; position: relative; background: #000;">
+        <div id="tv-modal-container" style="height: 100%; width: 100%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  <script src="stockService.js"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
